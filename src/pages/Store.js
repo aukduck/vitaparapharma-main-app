@@ -12,7 +12,11 @@ import { useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { NewBaseUrl, fetchProducts, setProducts } from "../rtk/slices/Product-slice";
+import {
+  NewBaseUrl,
+  fetchProducts,
+  setProducts,
+} from "../rtk/slices/Product-slice";
 //import { addToWishlist , removeFromWishlist  } from '../rtk/slices/Wishlist-slice';
 //import { selectWishlist } from '../rtk/slices/Wishlist-slice';
 import DetailsDialog from "./products/DetailsDialog";
@@ -75,12 +79,15 @@ function Store() {
   );
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [priceRange, setPriceRange] = useState({ min: 0, max: 10000 });
 
   const userId = useSelector((state) => state.auth.id);
   const bearerToken = useSelector(selectToken);
 
   const products = useSelector((state) => state.products.products);
+  const [priceRange, setPriceRange] = useState({
+    min: 0,
+    max: Math.max(...products.map((product) => product.price)),
+  });
 
   const [ratingFilter, setRatingFilter] = useState(0);
 
@@ -306,7 +313,7 @@ function Store() {
   const queryParams = new URLSearchParams(location.search);
   const searchTermFromUrl = queryParams.get("search") || "";
   const categoryIdFromUrl = queryParams.get("category");
-  // const mainCategoryIdFromUrl = queryParams.get("Maincategory");
+  const mainCategoryIdFromUrl = queryParams.get("Maincategory");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -320,12 +327,9 @@ function Store() {
 
     fetchData();
     setSearchTerm(searchTermFromUrl);
-  }, [language, searchTermFromUrl, categoryIdFromUrl, ]);
-
+  }, [language, searchTermFromUrl, categoryIdFromUrl]);
 
   const [value, setValue] = useState(50);
-
-
 
   const handleSearchChangeInternal = (e) => {
     const term = e.target.value.toLowerCase();
@@ -402,23 +406,17 @@ function Store() {
                   const matchesCategory =
                     !categoryIdFromUrl ||
                     product.categoryId === parseInt(categoryIdFromUrl);
-                  if (categoryIdFromUrl) {
-                    console.log(" Category filter", categoryIdFromUrl);
-                  }
 
-                  // const matchesMainCategory =
-                  //   !mainCategoryIdFromUrl ||
-                  //   product.mainCategoryId === parseInt(mainCategoryIdFromUrl);
-                  // if (mainCategoryIdFromUrl) {
-                  //   console.log("main Category filter", mainCategoryIdFromUrl);
-                  // }
+                  const matchesMainCategory =
+                    !mainCategoryIdFromUrl ||
+                    product.mainCategoryId === parseInt(mainCategoryIdFromUrl);
 
                   if (
                     matchesRating &&
                     matchesPriceRange &&
                     matchesSearch &&
-                    matchesCategory 
-                    // matchesMainCategory
+                    matchesCategory &&
+                    matchesMainCategory
                   ) {
                     return (
                       <div
