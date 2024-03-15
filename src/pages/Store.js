@@ -528,7 +528,9 @@ function Store() {
                     <input
                       type="range"
                       min="0"
-                      max="1000000000"
+                      max={Math.max(
+                        ...products.map((product) => product.price)
+                      )}
                       value={priceRange.max}
                       onChange={handlePriceRangeChange}
                     />
