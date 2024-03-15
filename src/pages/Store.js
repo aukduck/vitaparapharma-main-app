@@ -528,7 +528,7 @@ function Store() {
                     <input
                       type="range"
                       min="0"
-                      max="10000"
+                      max="1000000000"
                       value={priceRange.max}
                       onChange={handlePriceRangeChange}
                     />
