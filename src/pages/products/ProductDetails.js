@@ -224,20 +224,31 @@ function ProductDetails() {
                 <h1 className="text-xl text-black text-center my-3 lg:font-bold">
                   {translations[language]?.aboutpro}{" "}
                 </h1>
-                <p className=" ">
-                  {productDetails && productDetails.description}
-                </p>
+
+                {productDetails && (
+                  <p
+                    dangerouslySetInnerHTML={{
+                      __html: productDetails.description,
+                    }}
+                  ></p>
+                )}
 
                 <h1 className="text-xl text-black text-center my-3 lg:font-bold ">
                   {translations[language]?.productdet}{" "}
                 </h1>
-                <p>{productDetails && productDetails.about}</p>
+                <p>
+                  {productDetails && (
+                    <p
+                      dangerouslySetInnerHTML={{ __html: productDetails.about }}
+                    ></p>
+                  )}
+                </p>
               </div>
             </div>
           </div>
         </div>
 
-        <div className=" bg-white border-1 border-gray-300 shadow-3xl shadow-slate-400 rounded-t-full  absolute w-full bottom-0  ">
+        <div className=" bg-wh border-1 border-gray-300 shadow-3xl shadow-slate-400 rounded-t-full  absolute w-full bottom-0  ">
           <div className="px-4 py-2 ">
             <div className="flex flex-row  md:flex-row md:items-center justify-between">
               <button
