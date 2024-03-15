@@ -418,7 +418,7 @@ function Cart() {
                             </button>
                           </div>
                         </div>
-                        <div className="absolute lg:static right-2">
+                        <div className="absolute lg:static right-10 h-20  lg:right-2">
                           <div className="">
                             <FaTrash
                               className="text-[#B3B8B8] text-2xl  my-3"
