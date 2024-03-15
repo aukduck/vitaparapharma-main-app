@@ -57,7 +57,7 @@ const translationSlice = createSlice({
         addressdescontact:
           "LAAYOUNE : MADINAT EL WAHDA BLOC B NR 91 LAAYOUNE (M).",
         addressdescontacttwo:
-          "Tetouan: Mezanine bloc B Bureau n 4 BOROUJ 16 Avenue des Far N° 873 Tétouan",
+          "Tetouan: Mezanine block B Office n° 4 BOROUJ 16 Avenue des Far N° 873 Tétouan",
         hours: "Working hours",
         day: "Monday to Friday: 7am - 7pm",
         weekend: "Weekend: 10am - 5pm",
@@ -549,10 +549,9 @@ const translationSlice = createSlice({
         offer:
           "نحن نقدم خدمة شحن سريعة تجعل منتجاتك تصل إليك في أسرع وقت ممكن، لتستمتع بتجربة تسوق فورية ومريحة",
         addresscontact: "العنوان",
-        addressdescontact:
-          "LAAYOUNE : MADINAT EL WAHDA BLOC B NR 91 LAAYOUNE (M).",
+        addressdescontact: "العيون : مدينة الوحدة بلوك ب رقم 91 العيون (م).",
         addressdescontacttwo:
-          "Tetouan: Mezanine bloc B Bureau n 4 BOROUJ 16 Avenue des Far N° 873 Tétouan",
+          "تطوان: الميزانين قطعة ب مكتب رقم 4 البروج 16 شارع الأقصى رقم 873 تطوان",
         hours: "ساعات العمل",
         day: "من الاثنين إلى الجمعة: 7 صباحًا - 7 مساءً",
         weekend: " نهاية الأسبوع: 10 صباحًا - 5 مساءً",
@@ -744,7 +743,7 @@ const translationSlice = createSlice({
         view: "عرض المنتج",
         review: "تعليق",
         write: "اكتب تعليق",
-        currency:"د.م"
+        currency: "د.م",
       },
     },
   },

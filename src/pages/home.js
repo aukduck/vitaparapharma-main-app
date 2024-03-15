@@ -437,7 +437,7 @@ function Home() {
                 {products?.slice(0, 9).map((product) => (
                   <div
                     style={{}}
-                    className="relative w-[350px] h-[420px] lg:w-[370px] lg:h-[420px] mx-auto mt-5 bg-white p-2 rounded-2xl text-center "
+                    className="relative w-[350px] h-[420px] lg:w-[95%] lg:h-[420px] mx-auto mt-5 bg-white p-2 rounded-2xl text-center "
                     key={product.id}
                   >
                     <div className="">
@@ -572,7 +572,6 @@ function Home() {
           </Modal.Footer>
         </Modal>
       </div>
-
     </div>
   );
 }
