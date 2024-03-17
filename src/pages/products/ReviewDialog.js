@@ -254,6 +254,20 @@ const ReviewDialog = ({ isOpen, onCancel, productId, productDetails }) => {
   const hasUserSubmittedReview = () => {
     return reviews.some((review) => review.email === userData.email);
   };
+  const hasUserData = userData !== null;
+
+  const userReview = hasUserData
+    ? reviews.find((review) => review.email === userData.email)
+    : null;
+  const otherReviews = reviews.filter(
+    (review) => review.email !== userData?.email
+  );
+  let sortedReview = [];
+  if (userReview) {
+    sortedReview = [userReview, ...otherReviews];
+  } else {
+    sortedReview = [...otherReviews];
+  }
 
   return (
     <div className={`review ${isOpen ? "open" : ""}`}>
@@ -333,7 +347,7 @@ const ReviewDialog = ({ isOpen, onCancel, productId, productDetails }) => {
                 </div>
 
                 <div className="mt-5">
-                  {reviews.map((review, index) => (
+                  {sortedReview.map((review, index) => (
                     <div
                       className="bg-white/90 py-2 px-4 mb-3 mx-auto rounded-2xl border-2 border-grey w-[80%]  h-[120px] shadow-md"
                       key={index}
