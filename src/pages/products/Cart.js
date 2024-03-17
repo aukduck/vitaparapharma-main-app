@@ -382,7 +382,7 @@ function Cart() {
                           <Image
                             src={product.pictureUrl}
                             alt="Product poster"
-                            className="right-[35%] w-[30%] absolute lg:right-14  rounded-full lg:w-[140px] h-[120px] top-[5%] object-contain"
+                            className="right-[35%] w-[30%] absolute lg:right-12  rounded-full lg:w-[140px] h-[120px] top-[5%] object-contain"
                           />
                         </div>
                         <div className="w-full lg:w-[50%] text-center pt-3 ">
@@ -449,7 +449,7 @@ function Cart() {
                     </div>
                   ))}
                 </div>
-                <div className=" w-[100%] lg:w-[35%]  h-[400px] bg-white items-center relative mt-[15px] mr-[15px] shadow-md rounded-tr-[100px] rounded-bl-[100px] p-2">
+                <div className=" w-[97%] mb-3 max-md:mx-auto lg:w-[35%]  h-[400px] bg-white items-center relative mt-[15px] lg:mr-[15px] shadow-md rounded-tr-[100px] rounded-bl-[100px] p-2">
                   <h4 className="m-3 text-[#3ebf87]">
                     {translations[language]?.totalprice}:
                   </h4>
@@ -477,6 +477,7 @@ function Cart() {
                       id="agreeTerms"
                       onChange={handleCheckboxChange}
                       checked={isCheckboxChecked}
+                      className="w-[15px] h-[15px] "
                     />
 
                     <label

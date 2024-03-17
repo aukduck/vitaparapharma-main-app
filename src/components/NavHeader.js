@@ -531,7 +531,7 @@ function NavHeader({ userId, handleProductClick, cartunmber }) {
                   )}
                 </div>
 
-                <div className="text-line text-linelogout ">
+                <div className="text-line flex-row text-linelogout ">
                   {isLoggedIn && (
                     <>
                       <button

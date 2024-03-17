@@ -248,7 +248,7 @@ function ProductDetails() {
           </div>
         </div>
 
-        <div className=" bg-wh border-1 border-gray-300 shadow-3xl shadow-slate-400 rounded-t-full  absolute w-full bottom-0  ">
+        <div className=" bg-white border-1  border-gray-300 shadow-3xl shadow-slate-400 rounded-t-full  absolute w-full bottom-0  ">
           <div className="px-4 py-2 ">
             <div className="flex flex-row  md:flex-row md:items-center justify-between">
               <button
@@ -280,17 +280,17 @@ function ProductDetails() {
                   {productDetails ? (
                     <h1 className="text-[14px] lg:text-2xl ">
                       {productDetails.discount && (
-                        <h1>
+                        <span  className="max-md:text-[12px]">
                           {(productDetails.afterDiscount * quantity).toFixed(2)}{" "}
                           {translations[language]?.currency}
-                        </h1>
+                        </span>
                       )}
                       {!productDetails.discount && (
-                        <h1>
+                        <span className="max-md:text-[12px]">
                           {(productDetails.price ||
                             productDetails.productPrice) * quantity}{" "}
                           {translations[language]?.currency}
-                        </h1>
+                        </span>
                       )}
                     </h1>
                   ) : (
@@ -299,16 +299,16 @@ function ProductDetails() {
                 </div>
                 <div className="flex  items-center">
                   <button
-                    className="bg-[#3EBF87] text-white ml-2  border-1 border-[#3EBF87] p-1"
+                    className="bg-[#3EBF87] text-white ml-2  border-1 border-[#3EBF87] p-0.5 lg:p-1"
                     onClick={handleDecrement}
                   >
                     <FaMinus />
                   </button>
-                  <span className="md:text-lg md:font-bold  mx-3 text-2xl text-black">
+                  <span className="md:text-lg md:font-bold mx-1 lg:mx-3 text-lg lg:text-2xl text-black">
                     {quantity}
                   </span>
                   <button
-                    className=" bg-[#3EBF87] text-white ml-2  border-1 border-[#3EBF87] p-1 "
+                    className=" bg-[#3EBF87] text-white ml-2  border-1 border-[#3EBF87] p-0.5 lg:p-1 "
                     onClick={handleIncrement}
                   >
                     <FaPlus />

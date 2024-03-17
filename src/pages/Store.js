@@ -50,6 +50,7 @@ import WhatsAppIcon from "../components/Whatsapp";
 import Dropdown from "react-bootstrap/Dropdown";
 import Footer from "../components/Footer";
 import { baseUrl } from "../rtk/slices/Product-slice";
+import { MdOutlineLocalOffer } from "react-icons/md";
 
 function Store() {
   const dispatch = useDispatch();
@@ -384,9 +385,9 @@ function Store() {
         <div className="home-containerr testtt">
           <WhatsAppIcon />
 
-          <div className="store-flex">
+          <div className="flex flex-col-reverse lg:flex-row justify-between ">
             {!loading && (
-              <div className=" grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-3 lg:gap-4 w-[95%] lg:w-[90%] ">
+              <div className=" grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-3 lg:gap-4 w-[95%] max-md:mx-auto lg:w-[90%] ">
                 {products.map((product) => {
                   const matchesSearch =
                     product.name
@@ -420,8 +421,8 @@ function Store() {
                   ) {
                     return (
                       <div
-                        style={{}}
-                        className="relative w-70 h-[450px] lg:w-[80%] lg:h-[450px] mx-auto mt-5 bg-white p-2 rounded-2xl text-center "
+                      
+                        className="relative w-[90%] max-md:mx-auto  h-[450px] lg:w-[80%] lg:h-[450px] mx-auto mt-5 bg-white p-2 rounded-2xl text-center "
                         key={product.id}
                       >
                         <div className="w-70 lg:w-[100%]">
@@ -460,6 +461,10 @@ function Store() {
                             <h2 className="text-[#3EBF87] text-[25px] line-clamp-1">
                               {product.name}
                             </h2>
+
+                            {product.discount ? (
+                              <MdOutlineLocalOffer className="absolute top-6 left-[10%] text-[70px] text-[#3EBF87] bg-white rounded-full p-1 m-2 " />
+                            ) : null}
 
                             <div className="w-[40%] ml-5 flex flex-row">
                               <StarRating
@@ -507,7 +512,7 @@ function Store() {
               </div>
             )}
 
-            <div className="storeside">
+            <div className="w-[90%] max-md:mx-auto lg:border-l-[1px] border-[#707070] flex-grow lg:w-[30%] lg:pl-[40px]">
               <p></p>
               <div>
                 <div style={{ marginBottom: "30px" }}>
