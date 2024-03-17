@@ -251,6 +251,9 @@ const ReviewDialog = ({ isOpen, onCancel, productId, productDetails }) => {
       console.error("Error adding product to cart:", error.message);
     }
   };
+  const hasUserSubmittedReview = () => {
+    return reviews.some((review) => review.email === userData.email);
+  };
 
   return (
     <div className={`review ${isOpen ? "open" : ""}`}>
@@ -427,40 +430,42 @@ const ReviewDialog = ({ isOpen, onCancel, productId, productDetails }) => {
                 </div>
 
                 <div className="w-full mb-10">
-                  <form className="w-full" onSubmit={handleSubmit}>
-                    <div className="mt-4 w-full flex flex-col md:flex-row md:justify-between relative max-w-[800px]">
-                      <div className="md:w-[50%] relative">
-                        <label className="w-full relative">
-                          <textarea
-                            placeholder={translations[language]?.write}
-                            name="comment"
-                            value={formData.comment}
-                            onChange={handleChange}
-                            className="border border-gray-300 rounded-lg px-3 py-2 w-full pr-10"
-                          />
-                        </label>
-                      </div>
+                  {userData && !hasUserSubmittedReview() && (
+                    <form className="w-full" onSubmit={handleSubmit}>
+                      <div className="mt-4 w-full flex flex-col md:flex-row md:justify-between relative max-w-[800px]">
+                        <div className="md:w-[50%] relative">
+                          <label className="w-full relative">
+                            <textarea
+                              placeholder={translations[language]?.write}
+                              name="comment"
+                              value={formData.comment}
+                              onChange={handleChange}
+                              className="border border-gray-300 rounded-lg px-3 py-2 w-full pr-10"
+                            />
+                          </label>
+                        </div>
 
-                      <div className="mt-4 md:mt-0  md:inset-y-0 md:right-0 md:w-[30%]">
-                        <StarRating
-                          initialRating={rating}
-                          onRatingChange={(newRating) => setRating(newRating)}
-                          isClickable={true}
-                        />
-                      </div>
-                      <div>
-                        <button
-                          className="bg-[#61DAA2] lg:h-10 lg:w-15 w-15 h-8 rounded-[15px]  text-white lg:text-xl  cursor-pointer lg:mb-2 mb-1  lg:ml-10 lg:mt-1 mt-4 md:mt-0 px-2"
-                          type="submit"
-                        >
-                          {translations[language]?.submit}
-                        </button>
-                        {/*<button className=" lg:h-10 lg:w-15 w-15 h-8 rounded-[15px]  text-white lg:text-xl   lg:mb-2 mb-1  lg:ml-10 lg:mt-1 mt-4 md:mt-0 px-2" type="submit">
+                        <div className="mt-4 md:mt-0  md:inset-y-0 md:right-0 md:w-[30%]">
+                          <StarRating
+                            initialRating={rating}
+                            onRatingChange={(newRating) => setRating(newRating)}
+                            isClickable={true}
+                          />
+                        </div>
+                        <div>
+                          <button
+                            className="bg-[#61DAA2] lg:h-10 lg:w-15 w-15 h-8 rounded-[15px]  text-white lg:text-xl  cursor-pointer lg:mb-2 mb-1  lg:ml-10 lg:mt-1 mt-4 md:mt-0 px-2"
+                            type="submit"
+                          >
+                            {translations[language]?.submit}
+                          </button>
+                          {/*<button className=" lg:h-10 lg:w-15 w-15 h-8 rounded-[15px]  text-white lg:text-xl   lg:mb-2 mb-1  lg:ml-10 lg:mt-1 mt-4 md:mt-0 px-2" type="submit">
       <IoSendOutline className="w-6 h-6 text-[#61DAA2]" />
     </button>*/}
+                        </div>
                       </div>
-                    </div>
-                  </form>
+                    </form>
+                  )}
                 </div>
               </div>
             </div>

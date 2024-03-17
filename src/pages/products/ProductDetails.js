@@ -225,17 +225,6 @@ function ProductDetails() {
                   {translations[language]?.aboutpro}{" "}
                 </h1>
 
-                {productDetails && (
-                  <p
-                    dangerouslySetInnerHTML={{
-                      __html: productDetails.description,
-                    }}
-                  ></p>
-                )}
-
-                <h1 className="text-xl text-black text-center my-3 lg:font-bold ">
-                  {translations[language]?.productdet}{" "}
-                </h1>
                 <p>
                   {productDetails && (
                     <p
@@ -243,6 +232,18 @@ function ProductDetails() {
                     ></p>
                   )}
                 </p>
+
+                <h1 className="text-xl text-black text-center my-3 lg:font-bold ">
+                  {translations[language]?.productdet}{" "}
+                </h1>
+
+                {productDetails && (
+                  <p
+                    dangerouslySetInnerHTML={{
+                      __html: productDetails.description,
+                    }}
+                  ></p>
+                )}
               </div>
             </div>
           </div>
@@ -280,7 +281,7 @@ function ProductDetails() {
                   {productDetails ? (
                     <h1 className="text-[14px] lg:text-2xl ">
                       {productDetails.discount && (
-                        <span  className="max-md:text-[12px]">
+                        <span className="max-md:text-[12px]">
                           {(productDetails.afterDiscount * quantity).toFixed(2)}{" "}
                           {translations[language]?.currency}
                         </span>
