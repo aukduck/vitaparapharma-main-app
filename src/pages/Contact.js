@@ -118,7 +118,7 @@ function Contact() {
       <div className="bg-gray-50 bottom-0 overflow-y-hidden mt-[200px] ">
         <div className="mt-5 relative top-12 lg:top-0 lg:mx-12 overflow-y-hidden md:px-5  sm:px-2">
           <WhatsAppIcon />
-          <div className="flex flex-col lg:flex-row justify-between">
+          <div className="flex flex-col lg:flex-row justify-between mb-10 ">
             <div className="w-full lg:w-2/5 mb-4 lg:mb-0 mr-5">
               <div className="flex flex-row  bg-white p-4 mb-4 min-h-40 rounded-xl shadow-md">
                 <div className="flex items-center justify-center bg-[#61DAA2] w-20 h-20 rounded-full">

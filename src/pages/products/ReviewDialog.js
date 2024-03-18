@@ -284,7 +284,7 @@ const ReviewDialog = ({ isOpen, onCancel, productId, productDetails }) => {
                     <div className="px-4 py-2 ">
                       <div className="flex flex-row border-2 rounded-2xl shadow-md md:flex-row md:items-center justify-between">
                         <button
-                          className="bg-[#61DAA2] lg:h-16 lg:w-[250px] w-20 my-auto text-[12px] h-8 rounded-full   text-white lg:text-2xl  lg:font-bold lg:mb-2   lg:mr-10 lg:mt-1"
+                          className="bg-[#61DAA2] lg:h-16 lg:w-[250px] w-20 my-auto text-[10px] h-8 rounded-full   text-white lg:text-2xl  lg:font-bold lg:mb-2   lg:mr-10 lg:mt-1"
                           onClick={handleViewProductClick}
                         >
                           {translations[language]?.view}
@@ -300,12 +300,12 @@ const ReviewDialog = ({ isOpen, onCancel, productId, productDetails }) => {
                                   </h1>
                                 )}
                                 {!productDetails.discount && (
-                                  <h1>
+                                  <p className="text-center items-baseline my-auto mt-1  text-2xl max-md:text-sm text-nowrap">
                                     {(productDetails.price ||
                                       productDetails.productPrice) *
                                       quantity}{" "}
                                     $
-                                  </h1>
+                                  </p>
                                 )}
                               </h1>
                             ) : (
@@ -314,16 +314,16 @@ const ReviewDialog = ({ isOpen, onCancel, productId, productDetails }) => {
                           </div>
                           <div className="flex  items-center">
                             <button
-                              className="bg-[#3EBF87] text-white ml-2  border-1 border-[#3EBF87] p-1"
+                              className="bg-[#3EBF87] text-white ml-2  border-1 border-[#3EBF87] lg:p-1"
                               onClick={handleDecrement}
                             >
                               <FaMinus />
                             </button>
-                            <span className="md:text-lg md:font-bold  mx-3 text-2xl text-black">
+                            <p className="max-md:text-sm md:font-bold max-md:mx-[10px] my-auto lg:mx-3 text-2xl text-black">
                               {quantity}
-                            </span>
+                            </p>
                             <button
-                              className=" bg-[#3EBF87] text-white ml-2  border-1 border-[#3EBF87] p-1 "
+                              className=" bg-[#3EBF87] text-white ml-2  border-1 border-[#3EBF87] lg:p-1 "
                               onClick={handleIncrement}
                             >
                               <FaPlus />
