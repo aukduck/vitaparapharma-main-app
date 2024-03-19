@@ -428,19 +428,20 @@ function NavHeader({ userId, handleProductClick, cartunmber }) {
   const [nestedListId, setNestedListId] = useState(0);
 
   const hanldeNotificationClick = (notification) => {
-    switch(notification.typeId) {
+    switch (notification.typeId) {
       case 4:
         navigate(`/order?orderId=${notification.identifier}`);
         break;
       case 3:
+        navigate(`/home/product/${notification.identifier}`);
       case 2:
         navigate(`/home/product/${notification.identifier}`);
         break;
       case 1:
-        navigate('/cart');
+        navigate("/cart");
         break;
       default:
-        // Handle other cases if needed
+      // Handle other cases if needed
     }
 
     axios
@@ -593,25 +594,29 @@ function NavHeader({ userId, handleProductClick, cartunmber }) {
                       >
                         {showNotifications && (
                           <div
-                            className={`flexLanguage ${
+                            className={`flexLanguage  ${
                               direction === "rtl" ? "rtl" : "ltr"
                             }`}
                           >
-                            <div className="notification-dropdown -mr-20 my-5 w-[150px] bg-white items-center text-center ">
+                            <div className="notification-dropdown  -mr-20 my-5 w-[150px] bg-white items-center text-center overflow-auto">
                               {notifications.map((notification) => (
                                 <div
-                                  className={`notification-item cursor-pointer  hover:text-green-700 ${
+                                  className={`notification-item  cursor-pointer   ${
                                     notification.read == true
-                                      ? "bg-white text-gray-400"
-                                      : "text-black "
+                                      ? "bg-white text-gray-400 hover:text-green-700"
+                                      : " hover:text-green-700"
                                   }`}
                                   key={notification.id}
                                   onClick={() =>
                                     hanldeNotificationClick(notification)
                                   }
                                 >
-                                  <div>{notification.message}</div>
-                                  <div>{formatDate(notification.time)}</div>
+                                  <div className="text-[13px]">
+                                    {notification.message}
+                                  </div>
+                                  <div className="text-[10px]">
+                                    {formatDate(notification.time)}
+                                  </div>
                                 </div>
                               ))}
                               <div className="items-center mx-auto text-center"></div>
