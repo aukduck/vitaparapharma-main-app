@@ -496,7 +496,7 @@ const translationSlice = createSlice({
         law: "Règlement des différends et loi applicable :",
         clearly:
           "Précisez clairement la loi applicable et la juridiction en cas de litige. Incluez des informations sur la manière dont les litiges seront résolus, par exemple par arbitrage ou litige.",
-        view: "Voir le produit",
+        view: "Consultez et modifiez toutes vos commandes livrées et retournées en attente ici.",
         review: "revoir",
         write: "Donnez votre avis",
         currency: "MAD",
