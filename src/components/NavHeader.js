@@ -589,7 +589,7 @@ function NavHeader({ userId, handleProductClick, cartunmber }) {
                       </button>
 
                       <div
-                        className="notification-dropdown-container "
+                        className="notification-dropdown-container w-[150px] lg:w-[200px] bg-red-500"
                         ref={notificationRef}
                       >
                         {showNotifications && (
@@ -598,7 +598,7 @@ function NavHeader({ userId, handleProductClick, cartunmber }) {
                               direction === "rtl" ? "rtl" : "ltr"
                             }`}
                           >
-                            <div className="notification-dropdown  -mr-20 my-5 w-[150px] bg-white items-center text-center overflow-auto">
+                            <div className="notification-dropdown  -mr-20 my-5 w-[200px] lg:w-[300px] bg-white items-center text-center overflow-auto">
                               {notifications.map((notification) => (
                                 <div
                                   className={`notification-item  cursor-pointer   ${
@@ -611,10 +611,10 @@ function NavHeader({ userId, handleProductClick, cartunmber }) {
                                     hanldeNotificationClick(notification)
                                   }
                                 >
-                                  <div className="text-[13px]">
+                                  <div className="text-[10px] lg:text-[13px]">
                                     {notification.message}
                                   </div>
-                                  <div className="text-[10px]">
+                                  <div className="text-[8px] lg:text-[10px]">
                                     {formatDate(notification.time)}
                                   </div>
                                 </div>
