@@ -32,6 +32,7 @@ import { IoIosNotificationsOutline } from "react-icons/io";
 import { selectToken } from "../rtk/slices/Auth-slice";
 import { baseUrl } from "../rtk/slices/Product-slice";
 import $ from "jquery";
+import { formatDate } from "../pages/MyOrders";
 
 function NavHeader({ userId, handleProductClick, cartunmber }) {
   const dispatch = useDispatch();
@@ -185,6 +186,7 @@ function NavHeader({ userId, handleProductClick, cartunmber }) {
     }
   };
   const [notifications, setNotifications] = useState([]);
+  const [unreadNotificationsCount, setUnreadNotificationsCount] = useState(0);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showtheDropDown, setShowtheDropDown] = useState(false);
   const [showMopDropDown, setshowmopDropDown] = useState(false);
@@ -203,6 +205,11 @@ function NavHeader({ userId, handleProductClick, cartunmber }) {
         },
       });
       setNotifications(response.data.data.notifications);
+      const unreadCount = response.data.data.notifications.filter(
+        (notification) => !notification.read
+      ).length;
+      console.log("unreadCount", unreadCount);
+      setUnreadNotificationsCount(unreadCount);
       console.log("success fetch notification in header", response.data.data);
     } catch (error) {
       console.error("Error fetching notifications: ", error);
@@ -420,6 +427,42 @@ function NavHeader({ userId, handleProductClick, cartunmber }) {
   };
   const [nestedListId, setNestedListId] = useState(0);
 
+  const hanldeNotificationClick = (notification) => {
+    switch(notification.typeId) {
+      case 4:
+        navigate(`/order?orderId=${notification.identifier}`);
+        break;
+      case 3:
+      case 2:
+        navigate(`/home/product/${notification.identifier}`);
+        break;
+      case 1:
+        navigate('/cart');
+        break;
+      default:
+        // Handle other cases if needed
+    }
+
+    axios
+      .put(
+        `${NewBaseUrl}/profile/read-notification/${notification.id}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${bearerToken}`,
+            "Accept-Language": language,
+          },
+        }
+      )
+      .then((response) => {
+        // Handle success
+        console.log("Notification marked as read:", response.data);
+      })
+      .catch((error) => {
+        // Handle error
+        console.log("Error marking notification as read:", error);
+      });
+  };
   return (
     <div className="fixed z-50 w-full bg-white ">
       <div className={`flexLanguage  ${direction === "rtl" ? "rtl" : "ltr"}`}>
@@ -539,7 +582,7 @@ function NavHeader({ userId, handleProductClick, cartunmber }) {
                         className="relative overflow-visible cursor-pointer"
                       >
                         <IoIosNotificationsOutline className="lg:text-[40px] lg:mr-[15px] cursor-pointer text-[25px]  mr-[5px] mt-[7px]" />
-                        {readed && notifications.length > 0 ? (
+                        {unreadNotificationsCount > 0 ? (
                           <div className=" top-2 left-2 w-2 h-3 rounded-full  text-center items-center bg-red-400  absolute"></div>
                         ) : null}
                       </button>
@@ -557,11 +600,18 @@ function NavHeader({ userId, handleProductClick, cartunmber }) {
                             <div className="notification-dropdown -mr-20 my-5 w-[150px] bg-white items-center text-center ">
                               {notifications.map((notification) => (
                                 <div
-                                  className="notification-item"
+                                  className={`notification-item cursor-pointer  hover:text-green-700 ${
+                                    notification.read == true
+                                      ? "bg-white text-gray-400"
+                                      : "text-black "
+                                  }`}
                                   key={notification.id}
+                                  onClick={() =>
+                                    hanldeNotificationClick(notification)
+                                  }
                                 >
                                   <div>{notification.message}</div>
-                                  <div>{notification.time}</div>
+                                  <div>{formatDate(notification.time)}</div>
                                 </div>
                               ))}
                               <div className="items-center mx-auto text-center"></div>
