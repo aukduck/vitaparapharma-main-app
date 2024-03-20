@@ -387,7 +387,7 @@ function Store() {
 
           <div className="flex flex-col-reverse lg:flex-row justify-between ">
             {!loading && (
-              <div className=" grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-3 lg:gap-4 w-[95%] max-md:mx-auto lg:w-[90%] ">
+              <div className=" grid grid-cols-1 xl:grid-cols-3 md:grid-cols-2 gap-3 lg:gap-4 w-[95%] max-md:mx-auto lg:w-[90%] ">
                 {products.map((product) => {
                   const matchesSearch =
                     product.name
