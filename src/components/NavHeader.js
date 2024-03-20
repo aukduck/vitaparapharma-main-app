@@ -479,7 +479,7 @@ function NavHeader({ userId, handleProductClick, cartunmber }) {
           </select>
         </div>
       </div>
-      <Navbar collapseOnSelect expand="lg">
+      <Navbar collapseOnSelect expand="xl" className="lg:w-full">
         <div className="w-full ">
           <div className="flex flex-col  ">
             <div className="flex flex-row items-center w-[100%]  lg:w-[95%] mx-auto  h-[70px] ">
@@ -651,9 +651,12 @@ function NavHeader({ userId, handleProductClick, cartunmber }) {
             </div>
 
             <div className="">
-              <div className="mx-auto items-center text-center w-full  ">
+              <div className="mx-auto items-center text-center w-full ">
                 <div className=" mx-auto ">
-                  <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                  <Navbar.Toggle
+                    aria-controls="responsive-navbar-nav"
+                    className="w-20 my-3"
+                  />
                   <Navbar.Collapse
                     id="responsive-navbar-nav"
                     className="w-full"
