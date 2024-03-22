@@ -64,37 +64,58 @@ function BlogDetails() {
     fetchBlogDetails();
   }, [blogId]);
 
-const handleCopyLink = async () => {
-  const blogTitle = blogDetails?.title; // Get the blog title
-  const blogImageURL = blogDetails?.pictureUrl; // Get the URL of the blog image
-  const pageURL = window.location.href; // Get the current page URL
-  
-  try {
-    let shareText = `${blogTitle}: ${pageURL}`; // Combine title and page URL
-    
-    // If the blog image URL is available, try copying the image itself
-    if (blogImageURL) {
-      const blob = await fetch(blogImageURL).then((response) => response.blob());
-      const items = [
-        new ClipboardItem({
-          [blob.type]: blob
-        })
-      ];
-      await navigator.clipboard.write(items);
-      shareText = `${blogTitle}: ${blogImageURL}: ${pageURL}`; // Add image URL to the share text
-    }
-    
-    // Copy the combined text to the clipboard
-    await navigator.clipboard.writeText(shareText);
 
-    setIsCopied(true);
-    setTimeout(() => {
-      setIsCopied(false);
-    }, 1000);
-  } catch (error) {
-    console.error('Error sharing:', error);
-  }
-};
+
+
+  const handleCopyLink = async () => {
+    const blogTitle = blogDetails?.title; // Get the blog title
+    const blogImageURL = blogDetails?.pictureUrl; // Get the URL of the blog image
+    const pageURL = window.location.href; // Get the current page URL
+    
+    try {
+      // If the blog image URL is available, try copying the image itself
+      if (blogImageURL) {
+        const blob = await fetch(blogImageURL).then((response) => response.blob());
+        
+        // Convert the image blob into a data URL
+        const reader = new FileReader();
+        reader.readAsDataURL(blob);
+        reader.onloadend = () => {
+          const imageDataURL = reader.result;
+          
+          // Include the image data URL and title in the clipboard data
+          const items = [
+            new ClipboardItem({
+              'text/plain': new Blob([`${imageDataURL}\n${blogTitle}\n${pageURL}`], { type: 'text/plain' }), // Add title, image, and URL
+            })
+          ];
+          
+          // Write the clipboard data
+          navigator.clipboard.write(items).then(() => {
+            setIsCopied(true);
+            setTimeout(() => {
+              setIsCopied(false);
+            }, 1000);
+          }).catch((error) => {
+            console.error('Error copying:', error);
+          });
+        };
+      } else {
+        // Copy only the text content if no image is available
+        await navigator.clipboard.writeText(`${blogTitle}: ${pageURL}`);
+        setIsCopied(true);
+        setTimeout(() => {
+          setIsCopied(false);
+        }, 1000);
+      }
+    } catch (error) {
+      console.error('Error sharing:', error);
+    }
+  };
+
+
+  
+  
 
   
   
