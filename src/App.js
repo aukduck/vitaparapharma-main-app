@@ -39,6 +39,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Notification from "./pages/Notification";
 import { useSelector } from "react-redux";
 import Terms from "./pages/Termis";
+import Validate from "./pages/auth/Validate";
 
 function App() {
   const direction = useSelector((state) => state.translation.direction);
@@ -68,6 +69,7 @@ function App() {
       
      
       <Route path="/authentication" element={<Sign />} />
+      <Route path="/validate" element={<Validate />} />
       <Route path="/authentication/forget-password" element={< ForgetPassword/>} />
       <Route path="/forget-password" element={<ForgetPassword />} />
       

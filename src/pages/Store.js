@@ -421,7 +421,6 @@ function Store() {
                   ) {
                     return (
                       <div
-                      
                         className="relative w-[90%] max-md:mx-auto  h-[450px] lg:w-[80%] lg:h-[450px] mx-auto mt-5 bg-white p-2 rounded-2xl text-center "
                         key={product.id}
                       >
@@ -512,7 +511,7 @@ function Store() {
               </div>
             )}
 
-            <div className="w-[90%] max-md:mx-auto lg:border-l-[1px] border-[#707070] flex-grow lg:w-[30%] lg:pl-[40px]">
+            <div className="w-[90%] max-md:mx-auto lg:border-l-[1px] border-[#707070] flex-grow lg:w-[25%] lg:pl-[40px]">
               <p></p>
               <div>
                 <div style={{ marginBottom: "30px" }}>

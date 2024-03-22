@@ -250,6 +250,9 @@ const translationSlice = createSlice({
         review: "review",
         write: "Write Your Review",
         currency: "MAD",
+        pleaseVeriry:"Please Verify Account",
+        EnterDigits:"Enter The Six digit code we sent to your Email address to verify you new Vita account:",
+        Verify:"Verify & Continue"
       },
       fr: {
         home: "Accueil",
@@ -502,6 +505,8 @@ const translationSlice = createSlice({
         review: "revoir",
         write: "Donnez votre avis",
         currency: "MAD",
+        pleaseVeriry:"Veuillez vérifier le compte",
+        EnterDigits:"Entrez le code à six chiffres que nous avons envoyé à votre adresse e-mail pour vérifier votre nouveau compte Vita :"
       },
       ar: {
         home: "الرئيسيه",
@@ -747,6 +752,8 @@ const translationSlice = createSlice({
         review: "تعليق",
         write: "اكتب تعليق",
         currency: "د.م",
+        pleaseVeriry:"يرجى التحقق من الحساب",
+        EnterDigits:"أدخل الرمز المكون من ستة أرقام الذي أرسلناه إلى عنوان بريدك الإلكتروني للتحقق من حساب Vita الجديد الخاص بك:"
       },
     },
   },

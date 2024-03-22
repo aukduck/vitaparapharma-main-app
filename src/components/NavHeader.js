@@ -88,6 +88,25 @@ function NavHeader({ userId, handleProductClick, cartunmber }) {
     fetchMainSubCategories();
   }, [language]);
 
+  const checkTokenExpiration = () => {
+    const userToken = localStorage.getItem("token");
+    if (userToken) {
+      const { expires } = JSON.parse(userToken);
+      if (expires && expires < Date.now()) {
+        // Token has expired, dispatch action to set token to null and remove from local storage
+        dispatch(setToken(null));
+        localStorage.removeItem("token");
+        setIsLoggedIn(false);
+        // You can also perform additional logout-related actions here
+        console.log("Token has expired, user logged out");
+      }
+    }
+  };
+
+  useEffect(() => {
+    checkTokenExpiration();
+  }, []);
+
   const handleLanguageChange = (e) => {
     const selectedLanguage = e.target.value;
     dispatch(setLanguage(selectedLanguage));
@@ -241,6 +260,7 @@ function NavHeader({ userId, handleProductClick, cartunmber }) {
 
   useEffect(() => {
     fetchUserCart();
+    checkTokenExpiration();
   }, [cart, language]);
 
   const handleReadNotifications = () => {
@@ -314,6 +334,7 @@ function NavHeader({ userId, handleProductClick, cartunmber }) {
 
   useEffect(() => {
     fetchMianCategory();
+    checkTokenExpiration();
     setMainCategoryText(
       translations[language]?.main || translations["en"]?.main
     );

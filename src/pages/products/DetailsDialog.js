@@ -22,7 +22,7 @@ const DetailsDialog = ({ isOpen, onCancel, product }) => {
   const [quantity, setQuantity] = useState(1);
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
-  const [addedToCart, setAddedToCart] = useState(false); // State to track if item is added to cart
+  const [addedToCart, setAddedToCart] = useState(false);
   const translations = useSelector(selectTranslations);
   const language = useSelector(selectLanguage);
 
@@ -63,7 +63,7 @@ const DetailsDialog = ({ isOpen, onCancel, product }) => {
         .then(setShowModal(true));
 
       console.log("Product added to cart:", response.data);
-      setAddedToCart(true); // Set addedToCart to true when item is successfully added to cart
+      setAddedToCart(true);
       setQuantity(1);
     } catch (error) {
       console.error("Error adding product to cart:", error.message);
@@ -87,6 +87,17 @@ const DetailsDialog = ({ isOpen, onCancel, product }) => {
     setAddedToCart(false);
   }, [isOpen]);
 
+  const truncateDescription = (description) => {
+    if (!description) return "";
+    const lines = description.split("\n");
+    const maxLines = 4;
+    if (lines.length > maxLines) {
+      return lines.slice(0, maxLines).join("\n");
+    } else {
+      return description;
+    }
+  };
+
   return (
     <>
       {isOpen && (
@@ -96,26 +107,35 @@ const DetailsDialog = ({ isOpen, onCancel, product }) => {
               <div className="w-[50%] h-[50%] my-3">
                 <Link to={`/home/product/${product.productId}`}>
                   <img
-                    className="object-fill  w-[100%] h-[100%] mx-auto my-auto"
+                    className="object-fit  w-[100%] h-[100%] mx-auto my-auto"
                     src={product.pictures[0]}
                     alt="Product poster"
                   />
                 </Link>
               </div>
               <div className="h-100 bg-white rounded-t-3xl text-center sm:w-full">
-                <h1>{product.name || product.productName}</h1>
+                <h3>{product.name || product.productName}</h3>
                 <hr />
-                <p className="text-xl text-[#3A7E89] line-clamp-3 text-center ">
-                  {product.description || product.productDescription}{" "}
+                <div className="overflow-hidden">
+                  <div className="h-auto max-h-[4rem]  overflow-hidden">
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: truncateDescription(
+                          product.description || product.productDescription
+                        ),
+                      }}
+                    />
+                  </div>
+                </div>
 
-                </p>
                 <Link to={`/home/product/${product.productId}`}>
-                    {translations[language]?.showMore}
-                  </Link>
-                <div className="">
+                  {translations[language]?.showMore}
+                </Link>
+                <div className="text-center mx-auto ">
                   <StarRating
                     initialRating={product.rating}
                     isClickable={false}
+                    
                   />
                 </div>
                 <div className="flex flex-row justify-around mt-8">
@@ -152,7 +172,6 @@ const DetailsDialog = ({ isOpen, onCancel, product }) => {
                       }
                     >
                       {addedToCart ? "Added" : "Add to Cart"}{" "}
-                      {/* Conditional rendering of button text */}
                     </button>
                   </div>
                 </div>
