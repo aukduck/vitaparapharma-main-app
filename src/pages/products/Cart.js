@@ -368,12 +368,12 @@ function Cart() {
               </p>
             </div>
           ) : (
-            <div className="mt-[200px] w-[95%] lg:w-[90%] mx-auto ">
-              <div className="flex flex-col lg:flex-row  justify-between">
+            <div className="mt-[200px] w-[95%] lg:w-[95%] mx-auto  ">
+              <div className="flex flex-col xl:flex-row gap-3 justify-between">
                 <div className="">
                   {cart?.map((product) => (
                     <div
-                      className="w-full lg:w-110 h-30 bg-white border-1 border-solid border-gray-300 text-black shadow-2xl items-center p-3 text-center  rounded-[50px] mx-auto my-3 "
+                      className="w-full lg:w-[85%] h-30 bg-white border-1 border-solid border-gray-300 text-black shadow-2xl items-center p-3 text-center  rounded-[50px] mx-auto my-3 "
                       key={product.productId}
                     >
                       <div className="flex flex-col lg:flex-row gap-3  ">
@@ -382,7 +382,7 @@ function Cart() {
                           <Image
                             src={product.pictureUrl}
                             alt="Product poster"
-                            className="right-[35%] w-[30%] absolute lg:right-12  rounded-full lg:w-[140px] h-[120px] top-[5%] object-contain"
+                            className="right-[35%] w-[30%] absolute lg:right-16  rounded-full lg:w-[140px] h-[120px] top-[5%] object-contain"
                           />
                         </div>
                         <div className="w-full lg:w-[50%] text-center pt-3 ">
@@ -449,7 +449,7 @@ function Cart() {
                     </div>
                   ))}
                 </div>
-                <div className=" w-[97%] mb-3 max-md:mx-auto lg:w-[35%]  h-[400px] bg-white items-center relative mt-[15px] lg:mr-[15px] shadow-md rounded-tr-[100px] rounded-bl-[100px] p-2">
+                <div className=" w-[97%] mb-3 max-md:mx-auto lg:w-[35%]  h-[400px] bg-white items-center relative mt-[15px] lg:mr-[15px] shadow-md rounded-tr-[100px] rounded-bl-[100px] px-4 py-2">
                   <h4 className="m-3 text-[#3ebf87]">
                     {translations[language]?.totalprice}:
                   </h4>
@@ -477,7 +477,7 @@ function Cart() {
                       id="agreeTerms"
                       onChange={handleCheckboxChange}
                       checked={isCheckboxChecked}
-                      className="w-[15px] h-[15px] "
+                      className="min-w-[15px] min-h-[15px] "
                     />
 
                     <label

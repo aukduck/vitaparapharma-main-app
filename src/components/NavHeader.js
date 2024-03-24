@@ -58,6 +58,7 @@ function NavHeader({ userId, handleProductClick, cartunmber }) {
     dispatch(setToken(null));
     localStorage.removeItem("token");
     setIsLoggedIn(false);
+    navigate("/");
   };
   useEffect(() => {
     const checkLoggedInStatus = () => {
@@ -97,6 +98,7 @@ function NavHeader({ userId, handleProductClick, cartunmber }) {
         dispatch(setToken(null));
         localStorage.removeItem("token");
         setIsLoggedIn(false);
+        navigate("/");
         // You can also perform additional logout-related actions here
         console.log("Token has expired, user logged out");
       }

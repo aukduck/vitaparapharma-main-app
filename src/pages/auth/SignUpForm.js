@@ -17,6 +17,8 @@ const SignUpForm = ({ showPassword, handleTogglePasswordVisibility }) => {
   const dispatch = useDispatch();
   const language = useSelector(selectLanguage);
   const translations = useSelector(selectTranslations);
+  const direction = useSelector((state) => state.translation.direction);
+
 
   const [errors, setErrors] = useState({});
   const [valid, setValid] = useState(true);
@@ -32,6 +34,10 @@ const SignUpForm = ({ showPassword, handleTogglePasswordVisibility }) => {
   const handleInputChange = (field, value) => {
     setErrors({});
     setFormData({ ...formData, [field]: value });
+  };
+  const handleLanguageChange = (e) => {
+    const selectedLanguage = e.target.value;
+    dispatch(setLanguage(selectedLanguage));
   };
 
   const handleRegister = () => {
@@ -128,6 +134,7 @@ const SignUpForm = ({ showPassword, handleTogglePasswordVisibility }) => {
 
   return (
     <>
+
       {registrationMessage && (
         <p className="text-success">{registrationMessage}</p>
       )}
