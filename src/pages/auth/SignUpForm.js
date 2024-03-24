@@ -52,7 +52,7 @@ const SignUpForm = ({ showPassword, handleTogglePasswordVisibility }) => {
 
         setRegistrationMessage(result.data.message);
         localStorage.setItem("token",JSON.stringify( result.data.data.token)); // Store token directly
-        localStorage.setItem("email",JSON.stringify( formData.email)); // Store token directly
+        localStorage.setItem("email",( formData.email)); // Store token directly
 
         navigate("/validate");
       })

@@ -7,11 +7,13 @@ import {
   selectTranslations,
 } from "../../rtk/slices/Translate-slice";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Validate = () => {
   const language = useSelector(selectLanguage);
   const translations = useSelector(selectTranslations);
-  const [email,setEmail]=useState("")
+  const [email,setEmail]=useState("");
+  const navigate = useNavigate();
 
   const [verificationCode, setVerificationCode] = useState(Array(6).fill(""));
   const [registrationMessage, setRegistrationMessage] = useState("");
@@ -30,10 +32,13 @@ const Validate = () => {
       .then((response) => {
         // Handle success
         console.log(response.data);
+        navigate('/')
       })
       .catch((error) => {
         // Handle error
-        console.error(error);
+        console.log(error);
+        
+
       });
   };
 
@@ -66,7 +71,7 @@ const Validate = () => {
   return (
     <div className="w-full h-[100vh]">
       <div className="flex flex-col lg:flex-row w-full lg:h-full border-2  ">
-        <div className="bg-[#3EBF87] w-[100%] lg:w-[40%]  lg:h-[100%]">
+        <div className="bg-[#3EBF87] w-[100%] lg:w-[40%]  lg:h-[100%] lg:rounded-r-[200px]   max-md:rounded-b-full">
           <img src={emaill} className="w-10/12 h-[65%] mx-auto mt-[14%] " />
         </div>
         <div className="bg-white w-[100%] lg:w-[60%] h-[100%] mx-auto my-auto text-center items-center">
