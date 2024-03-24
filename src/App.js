@@ -46,8 +46,8 @@ function App() {
   return (
     <div className={`flexLanguage ${direction === 'rtl' ? 'rtl' : 'ltr'} App`}>
       <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/" element={<Home />} />
+      <Route key="home1" path="/" element={<Home />} />
+      <Route key="home2" path="/" element={<Home />} />
       <Route path="/about" element={<About />} />
       <Route path="/store" element={<Store />} />
       <Route path="/brand" element={<Brand />} />
