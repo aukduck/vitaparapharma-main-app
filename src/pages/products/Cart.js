@@ -20,7 +20,6 @@ import { FaHeart } from "react-icons/fa6";
 import { FaPlus, FaMinus } from "react-icons/fa";
 import axios from "axios";
 import { Modal } from "react-bootstrap";
-import "./cart.css";
 import WhatsAppIcon from "../../components/Whatsapp";
 import email from "../../images/Email icon.png";
 import address from "../../images/Location icon.png";
@@ -344,7 +343,6 @@ function Cart() {
     }
   };
 
-  // Set the confirm button disabled state based on the checkbox state
   const confirmButtonDisabled = !isCheckboxChecked;
 
   return (
@@ -449,12 +447,35 @@ function Cart() {
                     </div>
                   ))}
                 </div>
-                <div className=" w-[97%] mb-3 max-md:mx-auto lg:w-[35%]  h-[400px] bg-white items-center relative mt-[15px] lg:mr-[15px] shadow-md rounded-tr-[100px] rounded-bl-[100px] px-4 py-2">
+                <div className=" w-[97%] mb-3 max-md:mx-auto lg:w-[35%]  min-h-[500px] lg:h-[450px] bg-white items-center relative mt-[15px] lg:mr-[15px] shadow-md rounded-tr-[100px] rounded-bl-[100px] px-4 py-2">
                   <h4 className="m-3 text-[#3ebf87]">
                     {translations[language]?.totalprice}:
                   </h4>
                   <h4 className="text-center text-[#3ebf87]">
                     {totalPrice.toFixed(2)} {translations[language]?.currency}
+                  </h4>
+
+                  <h4 className="text-[#3EBF87] ml-3">Add Promo Code</h4>
+                  <div className="flex flex-row relative">
+                    <input
+                      type="text"
+                      name="copoune"
+                      id=""
+                      placeholder="Promo Code"
+                      value={promoCode}
+                      onChange={(e)=>setPromoCode(e.target.value)}
+                      className="bg-[#3EBF87] focus:border-white text-lg text-white h-[30px] px-3 mx-auto placeholder-white placeholder:text-xl placeholder:pl-2 rounded-2xl "
+                    />
+                    <button className="bg-white text-[#3EBF87] rounded-lg w-[30px] h-[20px] absolute right-[12px] top-1.5 text-[10px] "
+                    onClick={()=>{console.log("promoCode >> " , promoCode);}}
+                    >
+                      Add
+                    </button>
+                  </div>
+                  <h4 className="text-[#3EBF87] ml-3">
+                    Price after code: &nbsp;
+                    {totalPrice.toFixed(2) - totalPrice / 10}{" "}
+                    {translations[language]?.currency}
                   </h4>
 
                   <h5 className="text-[#3ebf87] font-bold mt-3">

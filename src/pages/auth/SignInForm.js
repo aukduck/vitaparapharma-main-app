@@ -12,7 +12,7 @@ import { selectToken } from "../../rtk/slices/Auth-slice";
 import { setToken } from "../../rtk/slices/Auth-slice";
 import { setEmail } from "../../rtk/slices/Auth-slice";
 import { useEffect } from "react";
-import { baseUrl } from "../../rtk/slices/Product-slice";
+import { baseUrl, baseUrl2 } from "../../rtk/slices/Product-slice";
 import "./sign.css";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
@@ -54,7 +54,7 @@ const SignInForm = () => {
     };
 
     axios
-      .post(`${baseUrl}/auth/login`, requestBody, {
+      .post(`${baseUrl2}/auth/login`, requestBody, {
         headers: {
           "Content-Type": "application/json",
           "Accept-Language": language,
@@ -62,12 +62,14 @@ const SignInForm = () => {
       })
       .then((result) => {
         setRegistrationMessage("");
+        console.log(result.data);
         dispatch(setToken(result.data.data.token));
         dispatch(setEmail(result.data.data.email));
 
         const expirationTime = formData.rememberMe
           ? Date.now() + 7 * 24 * 60 * 60 * 1000 // 7 days for rememberMe true // 1 minute for rememberMe false
           : Date.now() + 24 * 60 * 60 * 1000;
+          console.log("Token Expiration Time:", new Date(expirationTime).toLocaleString());
         localStorage.setItem(
           "token",
           JSON.stringify({
@@ -83,7 +85,6 @@ const SignInForm = () => {
           })
         );
 
-        navigate("/");
       })
       .catch((err) => {
         if (err.response && err.response.data && err.response.data.message) {
@@ -94,6 +95,8 @@ const SignInForm = () => {
       })
       .finally(() => {
         setLoading(false);
+        navigate("/");
+
       });
   };
 

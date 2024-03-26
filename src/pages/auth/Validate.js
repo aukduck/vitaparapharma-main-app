@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 const Validate = () => {
   const language = useSelector(selectLanguage);
   const translations = useSelector(selectTranslations);
-  const [email,setEmail]=useState("");
+  const [email, setEmail] = useState("");
   const navigate = useNavigate();
 
   const [verificationCode, setVerificationCode] = useState(Array(6).fill(""));
@@ -32,13 +32,12 @@ const Validate = () => {
       .then((response) => {
         // Handle success
         console.log(response.data);
-        navigate('/')
+        navigate("/");
       })
       .catch((error) => {
         // Handle error
         console.log(error);
-        
-
+        setRegistrationMessage(error.response.data.message); // Set error message
       });
   };
 
@@ -64,7 +63,6 @@ const Validate = () => {
     const storedEmail = localStorage.getItem("email");
     if (storedEmail) {
       setEmail(storedEmail);
-
     }
   }, []);
 
@@ -106,6 +104,9 @@ const Validate = () => {
             >
               Please introduce the 6-digit code we sent via email.
             </p>
+            {registrationMessage && (
+              <p className="text-red-500">{registrationMessage}</p>
+            )}
             <button
               type="submit"
               className="bg-[#3EBF87] text-white font-semibold py-3 px-4 rounded-lg mt-4 inline-block hover:bg-primary-600 transition duration-300"

@@ -34,12 +34,22 @@ const authSlice = createSlice({
   },
   reducers: {
     setToken: (state, action) => {
-      state.token = action.payload.value; // Accessing the 'value' property of the payload
+      if (action.payload !== null) {
+        state.token = action.payload; // Accessing the 'value' property of the payload
+      } else {
+        state.token = null;
+        console.log("teken Deleted ");
+      }
     },
     setEmail: (state, action) => {
-      state.email = action.payload.value; // Accessing the 'value' property of the payload
+      if (action.payload !== null) {
+        state.email = action.payload; // Accessing the 'value' property of the payload
+      } else {
+        state.email = null;
+      }
     }
-  },
+  }
+  
 });
 
 export const { setToken, setEmail } = authSlice.actions;

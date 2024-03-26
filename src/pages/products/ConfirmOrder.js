@@ -25,37 +25,39 @@ import email from "../../images/Email icon.png";
 import addresss from "../../images/Location icon.png";
 import phone from "../../images/phone icon.png";
 import Footer from "../../components/Footer";
-import { baseUrl } from "../../rtk/slices/Product-slice";
+import { baseUrl, baseUrl2 } from "../../rtk/slices/Product-slice";
 
 function ConfirmOrder() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const language = useSelector(selectLanguage);
   const translations = useSelector(selectTranslations);
-  const products = useSelector((state) => state.products);
   const cart = useSelector((state) => state.cart);
   const bearerToken = useSelector(selectToken);
   const [countries, setCountries] = useState([]);
   const [newAddress, setNewAddress] = useState({
-    country: "MOROCCO",
+    country: "",
     city: "",
-    region: "",
-    street: "",
+    regionId: "",
+    description: "",
     zipCode: "",
   });
   const [formError, setFormError] = useState("");
-
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const [selectedCity, setSelectedCity] = useState("");
+  const [selectedRegion, setSelectedRegion] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const allProducts = useSelector((state) => state.products);
+  const cartProducts = useSelector((state) => state.cart);
   const [showForm, setShowForm] = useState(false);
+  const [address, setAdress] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
 
   useEffect(() => {
     fetchUserAddresses();
     getCounries();
   }, [language]);
-
-  const handleLanguageChange = (e) => {
-    const selectedLanguage = e.target.value;
-    dispatch(setLanguage(selectedLanguage));
-  };
 
   const totalprice = cart.reduce((acc, product) => {
     acc += product.price * product.quantity;
@@ -65,10 +67,6 @@ function ConfirmOrder() {
   const handleDeleteFromCart = (productId) => {
     dispatch(deleteFromCart({ id: productId }));
   };
-
-  const [searchTerm, setSearchTerm] = useState("");
-  const allProducts = useSelector((state) => state.products);
-  const cartProducts = useSelector((state) => state.cart);
 
   const handleSearchChange = (e) => {
     const term = e.target.value;
@@ -92,25 +90,19 @@ function ConfirmOrder() {
     notes: "",
   });
 
-  const [address, setAdress] = useState([]);
-
   const fetchUserAddresses = async () => {
     try {
-      const response = await axios.get(`${baseUrl}/user/address/all`, {
+      const response = await axios.get(`${baseUrl2}/user/address/all`, {
         headers: {
           Authorization: `Bearer ${bearerToken}`,
           "Accept-Language": language,
         },
       });
-      // console.log("addreses", response.data);
       setAdress(response.data.data.addresses);
     } catch (error) {
-      console.error("Error fetching user cart:", error);
+      console.log("Error fetching user Addresses:", error);
     }
   };
-
-  const [showModal, setShowModal] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
 
   const handleCloseModal = () => setShowModal(false);
 
@@ -139,7 +131,6 @@ function ConfirmOrder() {
           console.error("Unknown error:", response.data);
         }
       }
-      console.log("addressid ", addressId);
     } catch (error) {
       console.error("Error submitting form:", error);
       console.log("addressid ", addressId);
@@ -154,17 +145,22 @@ function ConfirmOrder() {
   const addNewAddress = async () => {
     if (
       newAddress.city === "" ||
-      newAddress.region === "" ||
-      newAddress.street === "" ||
+      newAddress.regionId === "" ||
+      newAddress.description === "" ||
       newAddress.zipCode === ""
     ) {
       setFormError("Please fill in all required fields.");
-      return; // Don't proceed with adding the address
+      return;
+    }
+
+    if (!/^\d{5}$/.test(newAddress.zipCode)) {
+      setFormError("Zip code must be 5 digits.");
+      return;
     }
 
     try {
       const response = await axios.post(
-        `${baseUrl}/user/address/new`,
+        `${baseUrl2}/user/address/new`,
         newAddress,
         {
           headers: {
@@ -173,18 +169,18 @@ function ConfirmOrder() {
           },
         }
       );
-      console.log("adding new address successfully", response.data);
+      // console.log("adding new address successfully", response.data);
       fetchUserAddresses();
       setNewAddress({
         country: "MOROCCO",
         city: "",
-        region: "",
-        street: "",
+        regionId: "",
+        description: "",
         zipCode: "",
       });
       setShowForm(false);
     } catch (error) {
-      console.log("error in add newAddress >>", error);
+      console.error("error in add newAddress >>", error);
     }
   };
 
@@ -195,8 +191,6 @@ function ConfirmOrder() {
       ...prevAddress,
       [fieldName]: value,
     }));
-
-    console.log(newAddress);
   };
 
   const handleDeleteAddress = async (addressId) => {
@@ -210,7 +204,7 @@ function ConfirmOrder() {
           },
         }
       );
-      console.log("Deleted address successfully", response.data);
+      // console.log("Deleted address successfully", response.data);
       fetchUserAddresses();
     } catch (error) {
       console.log("error in Delete Address >>", error);
@@ -219,17 +213,46 @@ function ConfirmOrder() {
 
   const getCounries = async () => {
     try {
-      const response = await axios.get(`${baseUrl}/public/country/all`, {
-        headers: {
-          Authorization: `Bearer ${bearerToken}`,
-          "Accept-Language": language,
-        },
-      });
-      console.log("countries>>", response.data.data.countries);
-      setCountries(response.data.data.countries);
+      const response = await axios.get(
+        `${baseUrl2}/public/country-city-region`,
+        {
+          headers: {
+            Authorization: `Bearer ${bearerToken}`,
+            "Accept-Language": language,
+          },
+        }
+      );
+      setCountries(response.data.data);
     } catch (error) {
       console.log("error in getting countries", error.message);
     }
+  };
+
+  const handleCountryChange = (e) => {
+    handleInputChange(e, "country");
+    const selectedCountryId = e.target.value;
+    const country = countries.find((c) => c[language] === selectedCountryId);
+    // console.log("selected country:", country); // Log the country object here
+    setSelectedCountry(country);
+  };
+
+  const handleCityChange = (e) => {
+    const selectedCityId = e.target.value;
+    const cities = selectedCountry ? selectedCountry.cities : [];
+    const city = cities.find((city) => city[language] === selectedCityId);
+    // console.log("selected City ", city);
+    setSelectedCity(city);
+    handleInputChange(e, "city");
+  };
+
+  const handleRegionChange = (e) => {
+    const selectedRegionId = e.target.value;
+    const regions = selectedCity ? selectedCity.regions : [];
+    const region = regions.find((r) => r[language] === selectedRegionId);
+    // console.log("selectedRegion is ", region);
+    setSelectedRegion(region);
+    handleInputChange(e, "regionId");
+    // console.log(newAddress);
   };
 
   return (
@@ -261,23 +284,20 @@ function ConfirmOrder() {
                       {translations[language]?.country}
                     </label>
                     <select
-                      className="form-select ring-1 ring-[#3EBF87] ring-offset-4 ring-offset-white"
+                      className="form-select ring-1 ring-[#3EBF87] ring-offset-4 ring-offset-white origin-left appearance-auto"
                       id="country"
                       aria-label="Default select example"
-                      onChange={(e) => handleInputChange(e, "country")}
-                      value={"MOROCCO"}
+                      onChange={(e) => handleCountryChange(e)}
+                      value={newAddress.country}
                     >
-                      <option value="MOROCCO" key={"MOROCCO"}>
-                        Morocco
+                      <option value="" key={"MOROCCO"}>
+                        {translations[language]?.country}
                       </option>
-                      {/* {Object.keys(countries).map((countryKey) => (
-          <option
-            key={countryKey}
-            value={countries[countryKey]}
-          >
-            {countries[countryKey]}
-          </option>
-        ))} */}
+                      {countries?.map((country) => (
+                        <option key={country.id} value={country[language]}>
+                          {country[language]}
+                        </option>
+                      ))}
                     </select>
                   </div>
 
@@ -288,13 +308,23 @@ function ConfirmOrder() {
                     >
                       {translations[language]?.city}
                     </label>
-                    <input
-                      type="text"
-                      className="form-control ring-1 ring-[#3EBF87] ring-offset-4 ring-offset-white"
+                    <select
+                      className="form-select ring-1 ring-[#3EBF87] ring-offset-4 ring-offset-white origin-left appearance-auto"
                       id="city"
-                      onChange={(e) => handleInputChange(e, "city")}
+                      name="city"
+                      aria-label="Default select example"
+                      onChange={(e) => handleCityChange(e)}
                       value={newAddress.city}
-                    />
+                    >
+                      <option value="" key="NONE">
+                        {translations[language]?.selectCity}
+                      </option>
+                      {selectedCountry?.cities?.map((city) => (
+                        <option key={city.id} value={city[language]}>
+                          {city[language]}
+                        </option>
+                      ))}
+                    </select>
                   </div>
 
                   <div className="relative mb-3 p-3">
@@ -304,13 +334,23 @@ function ConfirmOrder() {
                     >
                       {translations[language]?.region}
                     </label>
-                    <input
-                      type="text"
-                      className="form-control ring-1 ring-[#3EBF87] ring-offset-4 ring-offset-white"
-                      id="region"
-                      onChange={(e) => handleInputChange(e, "region")}
-                      value={newAddress.region}
-                    />
+                    <select
+                      className="form-select ring-1 ring-[#3EBF87] ring-offset-4 ring-offset-white origin-left appearance-auto"
+                      id="city"
+                      name="city"
+                      aria-label="Default select example"
+                      onChange={(e) => handleRegionChange(e)}
+                      value={newAddress.regionId}
+                    >
+                      <option value="" key="NONE">
+                        {translations[language]?.selectRegion}
+                      </option>
+                      {selectedCity?.regions?.map((reg) => (
+                        <option key={reg.id} value={reg.id}>
+                          {reg[language]}
+                        </option>
+                      ))}
+                    </select>
                   </div>
 
                   <div className="relative mb-3 p-3">
@@ -324,8 +364,8 @@ function ConfirmOrder() {
                       type="text"
                       className="form-control ring-1 ring-[#3EBF87] ring-offset-4 ring-offset-white"
                       id="street"
-                      onChange={(e) => handleInputChange(e, "street")}
-                      value={newAddress.street}
+                      onChange={(e) => handleInputChange(e, "description")}
+                      value={newAddress.description}
                     />
                   </div>
 
@@ -348,7 +388,7 @@ function ConfirmOrder() {
 
                   <button
                     className="p-3 bg-[#61DAA2] text-white rounded-xl text-xl"
-                    onClick={() => addNewAddress()}
+                    onClick={addNewAddress}
                   >
                     {translations[language]?.saveadd}
                   </button>
@@ -358,7 +398,7 @@ function ConfirmOrder() {
           </div>
           {address.length > 0 && (
             <div className="hidden lg:block my-5">
-              <h3 className="text-center p-2 ">Your  Addresses</h3>
+              <h3 className="text-center p-2 ">Your Addresses</h3>
 
               <div className="overflow-x-auto">
                 <table className="table-fixed border border-1 w-full md:w-[80%] mx-auto rounded-xl">
@@ -400,7 +440,7 @@ function ConfirmOrder() {
                           {item.region}
                         </td>
                         <td className="p-3 text-center border-r">
-                          {item.street}
+                          {item.description}
                         </td>
                         <td className="p-3 text-center border-r">
                           {item.zipCode}
@@ -472,7 +512,7 @@ function ConfirmOrder() {
                     <td className="p-3">{translations[language]?.street}</td>
                     {address.map((item, index) => (
                       <td key={`street_${index}`} className="p-3">
-                        {item.street}
+                        {item.description}
                       </td>
                     ))}
                   </tr>

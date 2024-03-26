@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'; // Import createRoot from react-d
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter,HashRouter } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap/dist/css/bootstrap.min.css";

@@ -9,16 +9,14 @@ import {
 } from "../../rtk/slices/Translate-slice";
 import "./sign.css";
 import { setToken } from "../../rtk/slices/Auth-slice";
-import { baseUrl } from "../../rtk/slices/Product-slice";
+import { baseUrl, baseUrl2 } from "../../rtk/slices/Product-slice";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-
 
 const SignUpForm = ({ showPassword, handleTogglePasswordVisibility }) => {
   const dispatch = useDispatch();
   const language = useSelector(selectLanguage);
   const translations = useSelector(selectTranslations);
   const direction = useSelector((state) => state.translation.direction);
-
 
   const [errors, setErrors] = useState({});
   const [valid, setValid] = useState(true);
@@ -30,7 +28,7 @@ const SignUpForm = ({ showPassword, handleTogglePasswordVisibility }) => {
     password: "",
     phone: "",
   });
-  
+
   const handleInputChange = (field, value) => {
     setErrors({});
     setFormData({ ...formData, [field]: value });
@@ -42,10 +40,10 @@ const SignUpForm = ({ showPassword, handleTogglePasswordVisibility }) => {
 
   const handleRegister = () => {
     axios
-      .post(`${baseUrl}/auth/register`, formData, {
+      .post(`${baseUrl2}/auth/register`, formData, {
         headers: {
           "Content-Type": "application/json",
-          "Accept-Language": 'en',
+          "Accept-Language": "en",
         },
       })
       .then((result) => {
@@ -57,10 +55,8 @@ const SignUpForm = ({ showPassword, handleTogglePasswordVisibility }) => {
         dispatch(setToken(result.data.data.token));
 
         setRegistrationMessage(result.data.message);
-        localStorage.setItem("token",JSON.stringify( result.data.data.token)); // Store token directly
-        localStorage.setItem("email",( formData.email)); // Store token directly
-
-        navigate("/validate");
+        localStorage.setItem("token", JSON.stringify(result.data.data.token)); // Store token directly
+        localStorage.setItem("email", formData.email); // Store token directly
       })
       .catch((err) => {
         if (
@@ -85,9 +81,10 @@ const SignUpForm = ({ showPassword, handleTogglePasswordVisibility }) => {
             setErrors({ registration: errorMessage });
           }
         } else {
-          console.error(err);
+          console.log(err);
         }
-      });
+      })
+      .finally(navigate("/validate"));
   };
 
   const handleSubmit = (e) => {
@@ -134,7 +131,6 @@ const SignUpForm = ({ showPassword, handleTogglePasswordVisibility }) => {
 
   return (
     <>
-
       {registrationMessage && (
         <p className="text-success">{registrationMessage}</p>
       )}
@@ -163,18 +159,21 @@ const SignUpForm = ({ showPassword, handleTogglePasswordVisibility }) => {
             )}
           </div>
 
-
           <div className="mb-3 col-md-12">
             <label>
               Password<span className="text-danger">*</span>
             </label>
             <button
-                type="button"
-                className="toggle-password-btn ml-3 mt-0"
-                onClick={togglePasswordVisibility}
-              >
-                {passwordVisible ? <FaEyeSlash className="text-[20px]"/> : <FaEye className="text-[20px]"/>}
-              </button>
+              type="button"
+              className="toggle-password-btn ml-3 mt-0"
+              onClick={togglePasswordVisibility}
+            >
+              {passwordVisible ? (
+                <FaEyeSlash className="text-[20px]" />
+              ) : (
+                <FaEye className="text-[20px]" />
+              )}
+            </button>
             <div className="password-input-container">
               <input
                 type={passwordVisible ? "text" : "password"}
@@ -185,13 +184,11 @@ const SignUpForm = ({ showPassword, handleTogglePasswordVisibility }) => {
                   handleInputChange("password", event.target.value)
                 }
               />
-
             </div>
             {errors.password && (
               <span className="text-danger">{errors.password}</span>
             )}
           </div>
-
 
           <div className="mb-3 col-md-12">
             <label>

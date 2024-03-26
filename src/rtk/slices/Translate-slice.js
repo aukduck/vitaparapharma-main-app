@@ -98,7 +98,7 @@ const translationSlice = createSlice({
         cart: "Cart",
         changepass: "Change Password",
         searchblog: "search blog",
-        country: "country",
+        country: "Select country",
         city: "city",
         region: "region",
         street: "street",
@@ -252,7 +252,9 @@ const translationSlice = createSlice({
         currency: "MAD",
         pleaseVeriry:"Please Verify Account",
         EnterDigits:"Enter The Six digit code we sent to your Email address to verify you new Vita account:",
-        Verify:"Verify & Continue"
+        Verify:"Verify & Continue",
+        selectCity:"Select City",
+        selectRegion:"Select region"
       },
       fr: {
         home: "Accueil",
@@ -506,7 +508,10 @@ const translationSlice = createSlice({
         write: "Donnez votre avis",
         currency: "MAD",
         pleaseVeriry:"Veuillez vérifier le compte",
-        EnterDigits:"Entrez le code à six chiffres que nous avons envoyé à votre adresse e-mail pour vérifier votre nouveau compte Vita :"
+        EnterDigits:"Entrez le code à six chiffres que nous avons envoyé à votre adresse e-mail pour vérifier votre nouveau compte Vita :",
+        selectCity:"Sélectionnez une ville",
+        selectRegion:"Choisissez une région",
+
       },
       ar: {
         home: "الرئيسيه",
@@ -753,7 +758,11 @@ const translationSlice = createSlice({
         write: "اكتب تعليق",
         currency: "د.م",
         pleaseVeriry:"يرجى التحقق من الحساب",
-        EnterDigits:"أدخل الرمز المكون من ستة أرقام الذي أرسلناه إلى عنوان بريدك الإلكتروني للتحقق من حساب Vita الجديد الخاص بك:"
+        EnterDigits:"أدخل الرمز المكون من ستة أرقام الذي أرسلناه إلى عنوان بريدك الإلكتروني للتحقق من حساب Vita الجديد الخاص بك:",
+        selectCity:"اختر مدينة",
+        selectRegion:"اختر المنطقة"
+
+
       },
     },
   },

@@ -37,12 +37,9 @@ const Sign = () => {
 
   return (
     <div className={`containersign ${isSignUpMode ? "sign-up-mode" : ""}`}>
-
-
       <div className="forms-container">
         <div className="signin-signup">
-
-        {/* <div className={`flexLanguage  ${direction === "rtl" ? "rtl" : "ltr"}`}>
+          {/* <div className={`flexLanguage  ${direction === "rtl" ? "rtl" : "ltr"}`}>
         <div className="languageInnav rightAlign ">
           <select
             className="bg-[#61DAA2] border border-white border-opacity-50 outline-none text-white flex items-center mr-28 ml-20"
