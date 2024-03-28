@@ -69,7 +69,10 @@ const SignInForm = () => {
         const expirationTime = formData.rememberMe
           ? Date.now() + 7 * 24 * 60 * 60 * 1000 // 7 days for rememberMe true // 1 minute for rememberMe false
           : Date.now() + 24 * 60 * 60 * 1000;
-          console.log("Token Expiration Time:", new Date(expirationTime).toLocaleString());
+        console.log(
+          "Token Expiration Time:",
+          new Date(expirationTime).toLocaleString()
+        );
         localStorage.setItem(
           "token",
           JSON.stringify({
@@ -84,7 +87,7 @@ const SignInForm = () => {
             expires: expirationTime,
           })
         );
-
+        navigate("/");
       })
       .catch((err) => {
         if (err.response && err.response.data && err.response.data.message) {
@@ -95,8 +98,6 @@ const SignInForm = () => {
       })
       .finally(() => {
         setLoading(false);
-        navigate("/");
-
       });
   };
 

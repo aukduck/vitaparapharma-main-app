@@ -18,7 +18,7 @@ import address from "../images/Location icon.png";
 import phone from "../images/phone icon.png";
 import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
-import { baseUrl } from "../rtk/slices/Product-slice";
+import { baseUrl, baseUrl2 } from "../rtk/slices/Product-slice";
 
 export function formatDate(dateString) {
   const date = new Date(dateString);
@@ -69,7 +69,7 @@ function MyOrders() {
 
   const getAllOrders = async () => {
     try {
-      const response = await axios.get(`${baseUrl}/user/order/all`, {
+      const response = await axios.get(`${baseUrl2}/user/order/all`, {
         headers: {
           Authorization: `Bearer ${bearerToken}`,
           "Content-Type": "application/json",
@@ -80,7 +80,7 @@ function MyOrders() {
       console.log("the orders >>", response.data.data);
       setAllOrders(response.data.data.orders);
     } catch (error) {
-      console.log("error in fetching All Orders", error);
+      console.error("error in fetching All Orders", error);
     }
   };
 

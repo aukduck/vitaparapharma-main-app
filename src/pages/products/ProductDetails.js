@@ -162,8 +162,8 @@ function ProductDetails() {
       />
 
       <div className="w-full h-[90%] mt-[180px] ">
-        <div className="block lg:hidden text-center items-center mx-auto w-[24%] my-3 ">
-          <div className="flex flex-row lg:mx-3 text-center items-center">
+        <div className="block lg:hidden text-center items-center mx-auto w-[59%] my-3    px-2">
+          <div className="flex flex-row lg:mx-3 text-center items-center mx-auto  justify-around">
             {selectedProduct && selectedProduct.rating !== undefined ? (
               <>
                 <StarRating

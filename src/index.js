@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'; // Import createRoot from react-d
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter,HashRouter } from 'react-router-dom';
+import { BrowserRouter, HashRouter } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -17,13 +17,13 @@ import { Provider } from 'react-redux';
 // Use createRoot instead of ReactDOM.render
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter>
+    <HashRouter>
       <Provider store={store}>
         <div dir={store.getState().translation.direction}>
           <App />
         </div>
       </Provider>
-    </BrowserRouter>
+    </HashRouter>
   </React.StrictMode>
 );
 

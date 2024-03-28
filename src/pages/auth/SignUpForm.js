@@ -57,6 +57,7 @@ const SignUpForm = ({ showPassword, handleTogglePasswordVisibility }) => {
         setRegistrationMessage(result.data.message);
         localStorage.setItem("token", JSON.stringify(result.data.data.token)); // Store token directly
         localStorage.setItem("email", formData.email); // Store token directly
+        navigate("/validate")
       })
       .catch((err) => {
         if (
@@ -84,7 +85,6 @@ const SignUpForm = ({ showPassword, handleTogglePasswordVisibility }) => {
           console.log(err);
         }
       })
-      .finally(navigate("/validate"));
   };
 
   const handleSubmit = (e) => {

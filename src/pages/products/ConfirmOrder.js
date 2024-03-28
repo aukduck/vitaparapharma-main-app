@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import {
   setLanguage,
@@ -53,10 +53,13 @@ function ConfirmOrder() {
   const [address, setAdress] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
+  const location = useLocation(); // Use useLocation hook to access location state
+  const coupon = location.state?.coupon;
 
   useEffect(() => {
     fetchUserAddresses();
     getCounries();
+    console.log("copone in Order page", coupon);
   }, [language]);
 
   const totalprice = cart.reduce((acc, product) => {
@@ -107,10 +110,11 @@ function ConfirmOrder() {
   const handleCloseModal = () => setShowModal(false);
 
   const createOrder = async (addressId) => {
+    const data = { coupons: [coupon] };
     try {
       const response = await axios.post(
-        `${baseUrl}/user/order/cart/on/${addressId}`,
-        {},
+        `${baseUrl2}/user/order/cart/on/${addressId}`,
+        data,
         {
           headers: {
             Authorization: `Bearer ${bearerToken}`,
@@ -223,6 +227,7 @@ function ConfirmOrder() {
         }
       );
       setCountries(response.data.data);
+      console.log("countries", response.data.data);
     } catch (error) {
       console.log("error in getting countries", error.message);
     }

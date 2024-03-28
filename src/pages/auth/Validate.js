@@ -25,7 +25,7 @@ const Validate = () => {
       email: email, // Provide the email here
       code: verificationCode.join(""), // Combine the verification code digits
     };
-    console.log(formData);
+    console.log("data sending is ",formData);
 
     axios
       .post("https://api.vitaparapharma.com/p/activate-account", formData)

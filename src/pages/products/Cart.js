@@ -25,7 +25,7 @@ import email from "../../images/Email icon.png";
 import address from "../../images/Location icon.png";
 import phone from "../../images/phone icon.png";
 import Footer from "../../components/Footer";
-import { baseUrl } from "../../rtk/slices/Product-slice";
+import { baseUrl, baseUrl2 } from "../../rtk/slices/Product-slice";
 
 function Cart() {
   const dispatch = useDispatch();
@@ -43,6 +43,14 @@ function Cart() {
   const [modalMessage, setModalMessage] = useState("");
   const [itemToDelete, setItemToDelete] = useState(null);
   const [wishlist, setWishlist] = useState([]);
+  const [cart, setCart] = useState([]);
+
+  const [promoCode, setPromoCode] = useState("");
+  const bearerToken = useSelector(selectToken);
+  const [numItems, setNumItems] = useState(0);
+  const [confirmDisabled, setConfirmDisabled] = useState(true); // State to control the disabled status of the confirm button
+  const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
+  const [priceAfterCode, setPriceAfterCode] = useState(0); // State to store the price after applying the code
 
   const handleCloseModal = () => setShowModal(false);
 
@@ -101,6 +109,7 @@ function Cart() {
         }
       );
       console.log("Cart quantity updated successfully.");
+      checkOrder(promoCode);
     } catch (error) {
       console.error("Error updating cart quantity:", error.message);
     }
@@ -128,20 +137,11 @@ function Cart() {
     acc += product.price * product.quantity;
     return acc;
   }, 0);
-
-
   
 
   const handleDeleteFromCart = (productId) => {
     dispatch(deleteFromCart({ id: productId }));
   };*/
-
-  const [cart, setCart] = useState([]);
-
-  const [promoCode, setPromoCode] = useState("");
-  const bearerToken = useSelector(selectToken);
-  const [numItems, setNumItems] = useState(0);
-  const [confirmDisabled, setConfirmDisabled] = useState(true); // State to control the disabled status of the confirm button
 
   const fetchUserCart = async () => {
     try {
@@ -298,8 +298,6 @@ function Cart() {
     }
   }, [cart]);
 
-  const [updatedCart, setUpdatedCart] = useState([]);
-
   const handleSave = async (productId, product) => {
     const cartItem = {
       productId: productId,
@@ -328,9 +326,6 @@ function Cart() {
     }
   };
 
-  const [selectedProducts, setSelectedProducts] = useState([]);
-  const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
-
   const handleCheckboxChange = () => {
     // Toggle the checkbox state
     setIsCheckboxChecked(!isCheckboxChecked);
@@ -339,12 +334,36 @@ function Cart() {
   const handleConfirmClick = () => {
     // Handle the confirm click only if the checkbox is checked
     if (isCheckboxChecked) {
-      navigate("/order/confirm");
+      navigate("/order/confirm", { state: { coupon: promoCode } });
     }
   };
 
   const confirmButtonDisabled = !isCheckboxChecked;
 
+  const checkOrder = async (coupon) => {
+    try {
+      const data = { coupons: [coupon] };
+      const response = await axios.post(
+        `${baseUrl2}/user/order/check/cart`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${bearerToken}`,
+            "Content-Type": "application/json",
+            "Accept-Language": language,
+          },
+        }
+      );
+      console.log("data from price ", response);
+
+      // Extract the price from the response and calculate the price after code
+      const priceFromResponse = response.data?.data?.order?.price || 0;
+      const priceAfterCode = priceFromResponse - priceFromResponse / 10; // Example calculation, adjust as needed
+      setPriceAfterCode(priceFromResponse);
+    } catch (error) {
+      console.log("Error in checkOrder:", error);
+    }
+  };
   return (
     <div>
       <NavHeader
@@ -463,18 +482,22 @@ function Cart() {
                       id=""
                       placeholder="Promo Code"
                       value={promoCode}
-                      onChange={(e)=>setPromoCode(e.target.value)}
+                      onChange={(e) => setPromoCode(e.target.value)}
                       className="bg-[#3EBF87] focus:border-white text-lg text-white h-[30px] px-3 mx-auto placeholder-white placeholder:text-xl placeholder:pl-2 rounded-2xl "
                     />
-                    <button className="bg-white text-[#3EBF87] rounded-lg w-[30px] h-[20px] absolute right-[12px] top-1.5 text-[10px] "
-                    onClick={()=>{console.log("promoCode >> " , promoCode);}}
+                    <button
+                      className="bg-white text-[#3EBF87] rounded-lg w-[30px] h-[20px] absolute right-[12px] top-1.5 text-[10px] "
+                      onClick={() => {
+                        console.log("promoCode >> ", promoCode);
+                        checkOrder(promoCode);
+                      }}
                     >
                       Add
                     </button>
                   </div>
                   <h4 className="text-[#3EBF87] ml-3">
                     Price after code: &nbsp;
-                    {totalPrice.toFixed(2) - totalPrice / 10}{" "}
+                    {priceAfterCode.toFixed(2)}{" "}
                     {translations[language]?.currency}
                   </h4>
 
